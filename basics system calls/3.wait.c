@@ -2,35 +2,10 @@
 #include<stdlib.h>
 #include<unistd.h>
 #include<string.h>
-#include<errno.h>
 #include<sys/wait.h>
+#include<errno.h>
 
-void forkExample();
-void execExample();
-
-
-int main(){
-    execExample();
-    return 0;
-    
-}
-
-void forkExample() {
-
-    /*here we dont know whether operating system will give 1st priority to child or parent*/
-    __pid_t p = fork();
-    if (p < 0){
-        perror("fork fail");
-    }
-    else if(p == 0){
-        printf("hello from child\n");
-    }
-    else{
-        printf("hello from parent\n");
-    }
-}
-
-void execExample(){
+void exampleWait(){
     printf("the file fork-exec.c is running\n");
     __pid_t pid = fork();
 
@@ -44,9 +19,15 @@ void execExample(){
             fprintf(stderr, "cant run script : %s\n", strerror(errno)); 
         }
     }else{
-
-        /*here the parent will not wait for child beacuse we are not using wait here*/
+        /*in here we ar eusing wait so the parent willl wait for the execution of child*/
+        pid = wait(NULL);
         printf("you are in parent, the pid of child is %d\n", pid);
         printf("the pid parent is %d\n", getpid());
     }  
+
+}
+
+int main(){
+    exampleWait();
+    return 0;
 }
