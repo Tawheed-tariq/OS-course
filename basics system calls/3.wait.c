@@ -19,7 +19,7 @@ void exampleWait(){
             fprintf(stderr, "cant run script : %s\n", strerror(errno)); 
         }
     }else{
-        /*in here we ar eusing wait so the parent willl wait for the execution of child*/
+        /*in here we are using wait so the parent willl wait for the execution of child*/
         pid = wait(NULL);
         printf("you are in parent, the pid of child is %d\n", pid);
         printf("the pid parent is %d\n", getpid());
