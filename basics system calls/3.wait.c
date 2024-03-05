@@ -19,14 +19,24 @@ void exampleWait(){
             fprintf(stderr, "cant run script : %s\n", strerror(errno)); 
         }
     }else{
+        pid_t pid_status;
         /*in here we are using wait so the parent willl wait for the execution of child*/
-        pid = wait(NULL);
+        pid = waitpid(pid, &pid_status, 0);
+        printf("the pid_status is %d\n", pid_status);
         printf("you are in parent, the pid of child is %d\n", pid);
         printf("the pid parent is %d\n", getpid());
     }  
 
 }
 
+/*
+waitpid(pid, pid_status, option)
+    pid -> child process ID
+    pid_status -> extra information about process
+    option -> 0 means wait until child process ends
+
+you can write man waitpid on terminal to get full info
+*/
 int main(){
     exampleWait();
     return 0;
