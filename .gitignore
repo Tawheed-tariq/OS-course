@@ -6,3 +6,4 @@
 
 # Ignore a.out file
 a.out
+.vscode/
