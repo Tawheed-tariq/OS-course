@@ -1,9 +1,0 @@
-# Ignore files starting with an integer and without extension
-**/[0-9]*.*
-
-# Ignore all .exe files
-**/*.exe
-
-# Ignore a.out file
-a.out
-.vscode/
