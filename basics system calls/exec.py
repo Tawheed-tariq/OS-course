@@ -1,1 +1,1 @@
-print("you are running python script")
+print("google.com")

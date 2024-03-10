@@ -5,6 +5,8 @@
 #include<errno.h>
 #include<string.h>
 
+/*pipe is used to open file descriptors ,which are used to communicate between processes*/
+
 void error(char *msg){
     fprintf(stderr, "%s : %s\n", msg, strerror(errno));
     exit(1);
@@ -12,12 +14,13 @@ void error(char *msg){
 
 void open_url(char *url){
     char launch[200];
-    sprintf(launch, "x-www-browser %s &", url);
+    sprintf(launch, "x-www-browser '%s' &", url);
     system(launch);
 }
 
 int main() {
     int fd[2];
+    char buffer[100];
     if(pipe(fd) == -1){
         error("cant create pipe");
     }
@@ -43,12 +46,8 @@ int main() {
         dup2(fd[0], 0); //we replace the STDIN with the file so that it reads from the file given
         close(fd[1]); //the parent will not write to file so we close it
 
-        char line[200];
-
-        while (fgets(line,200, stdin)){ //we can also use fd[0] in place of stdin
-            if(line[0] == '\t'){
-                open_url(line+1);
-            }
-        }
+        read(fd[0], buffer, 100);
+        printf("%s", buffer);
+        open_url(buffer); //will open the browser and link which is written in exec.py
     }
 }
