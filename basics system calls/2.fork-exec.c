@@ -9,9 +9,9 @@ void forkExample();
 void execExample();
 void nmapScan(char *);
 void whatweb(char *);
-
+void execExample1();
 int main(){
-    nmapScan("janibbashir.com");
+    execExample1();
     return 0;
 }
 
@@ -49,6 +49,28 @@ void execExample(){
         printf("you are in parent, the pid of child is %d\n", pid);
         printf("the pid parent is %d\n", getpid());
     }  
+}
+
+void execExample1(){
+    printf("running execle \n");
+    __pid_t pid = fork();
+
+    char *my_env[] = {"NAME=Tawheed","COLLEGE=NIT Srinagar", NULL};
+
+    if(pid < 0){
+        fprintf(stderr, "cant fork process : %s", strerror(errno));
+    }
+    else if(pid == 0){
+        printf("child process created successfully \n");
+        int status_code = execle("./envs", "envs","running execle() system call", NULL, my_env);
+        if(status_code == -1){
+            printf("child process did not terminate correctly\n");
+        }
+    }
+    else{
+        pid = wait(NULL);
+        printf("retruned to parent process\n");
+    }
 }
 
 void nmapScan(char *target){
