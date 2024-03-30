@@ -7,12 +7,12 @@
 
 void forkExample();
 void execExample();
-
+void nmapScan(char *);
+void whatweb(char *);
 
 int main(){
-    execExample();
+    nmapScan("janibbashir.com");
     return 0;
-    
 }
 
 void forkExample() {
@@ -44,9 +44,53 @@ void execExample(){
             fprintf(stderr, "cant run script : %s\n", strerror(errno)); 
         }
     }else{
-
+        pid = wait(NULL);
         /*here the parent will not wait for child beacuse we are not using wait here*/
         printf("you are in parent, the pid of child is %d\n", pid);
         printf("the pid parent is %d\n", getpid());
     }  
+}
+
+void nmapScan(char *target){
+    printf("running nmap scan on %s using exec system call\n", target);
+    __pid_t pid = fork();
+
+    char *arg_list[] = {"nmap", "-sV", target, "-F", "-n", "-T5", NULL};
+
+    if(pid < 0){
+        fprintf(stderr, "cant fork process : %s", strerror(errno));
+    }
+    else if(pid == 0){
+        printf("child process created successfully ");
+        int status_code = execv("/bin/nmap", arg_list);
+        if(status_code == -1){
+            printf("child process did not terminate correctly");
+        }
+    }
+    else{
+        pid = wait(NULL);
+        printf("retruned to parent process");
+    }
+}
+
+
+void whatweb(char *target){
+    printf("running whatweb scan on %s using exec system call\n", target);
+    __pid_t pid = fork();
+
+
+    if(pid < 0){
+        fprintf(stderr, "cant fork process : %s", strerror(errno));
+    }
+    else if(pid == 0){
+        printf("child process created successfully ");
+        int status_code = execlp("whatweb", "whatweb", target, NULL);
+        if(status_code == -1){
+            printf("child process did not terminate correctly");
+        }
+    }
+    else{
+        pid = wait(NULL);
+        printf("retruned to parent process");
+    }
 }
