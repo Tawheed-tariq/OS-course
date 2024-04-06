@@ -32,7 +32,9 @@ int main(){
 
 	//create 20 threads that will run above function
 	for(t=0; t< 20; t++){
-		pthread_create(threads+t, NULL, drink_lots, NULL);
+		if(pthread_create(threads+t, NULL, drink_lots, NULL) == -1){
+			error("cant create thread");
+		}
 	}
 
 	void* result;
