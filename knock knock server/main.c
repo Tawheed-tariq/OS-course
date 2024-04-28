@@ -77,9 +77,9 @@ void handle_shutdown(int sig){
 }
 
 int main(){
-    if(catch_signal(SIGINT, handle_shutdown) == -1){
-        error("cant set the interrupt handler"); //this will call handle_shutdown if ctrl-c is clicked 
-    }
+    // if(catch_signal(SIGINT, handle_shutdown) == -1){
+    //     error("cant set the interrupt handler"); //this will call handle_shutdown if ctrl-c is clicked 
+    // }
     int listner_d = open_listner_socket();
 
     bind_to_port(listner_d, 30000); //create a socket on port 30000
@@ -105,13 +105,14 @@ int main(){
         int res = say(connect_d, msg);
         if(res != -1){
             read_in(connect_d, buf, sizeof(buf)); //read data from client
-            if(strcasecmp("who`s there!", buf)){
+            if(strncasecmp("who`s there!", buf, 12)){
+                say(connect_d, buf);
                 say(connect_d, "You Should say 'Who`s there!'\r\n"); //checking the user`s answers
             }
             else{
                 if(say(connect_d, "Oscar\r\n") != -1){
                     read_in(connect_d, buf, sizeof(buf));
-                    if(strcasecmp("Oscar who?", buf))
+                    if(strncasecmp("Oscar who?", buf, 10))
                         say(connect_d, "You should say 'Oscar who?'\r\n");
                     else
                         say(connect_d, "Oscar silly question, you will get silly answer\r\n");
