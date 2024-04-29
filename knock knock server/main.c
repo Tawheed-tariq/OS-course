@@ -101,23 +101,28 @@ int main(){
             error("cannot open secondary socket");
         }
 
-        char *msg = "Internet knock knock protocol server\r\nversion 1.0\r\nknock knock!\r\n";
-        int res = say(connect_d, msg);
-        if(res != -1){
-            read_in(connect_d, buf, sizeof(buf)); //read data from client
-            if(strncasecmp("who`s there!", buf, 12)){
-                say(connect_d, buf);
-                say(connect_d, "You Should say 'Who`s there!'\r\n"); //checking the user`s answers
+        if(!fork()){
+            close(listner_d); //in child you need to close listner_d , because child only needs connect_d socket to talk to clinet
+            char *msg = "Internet knock knock protocol server\r\nversion 1.0\r\nknock knock!\r\n";
+            int res = say(connect_d, msg);
+            if(res != -1){
+                read_in(connect_d, buf, sizeof(buf)); //read data from client
+                if(strncasecmp("who`s there!", buf, 12)){
+                    say(connect_d, buf);
+                    say(connect_d, "You Should say 'Who`s there!'\r\n"); //checking the user`s answers
+                }
+                else{
+                    if(say(connect_d, "Oscar\r\n") != -1){
+                        read_in(connect_d, buf, sizeof(buf));
+                        if(strncasecmp("Oscar who?", buf, 10))
+                            say(connect_d, "You should say 'Oscar who?'\r\n");
+                        else
+                            say(connect_d, "Oscar silly question, you will get silly answer\r\n");
+                    } 
+                }
             }
-            else{
-                if(say(connect_d, "Oscar\r\n") != -1){
-                    read_in(connect_d, buf, sizeof(buf));
-                    if(strncasecmp("Oscar who?", buf, 10))
-                        say(connect_d, "You should say 'Oscar who?'\r\n");
-                    else
-                        say(connect_d, "Oscar silly question, you will get silly answer\r\n");
-                } 
-            }
+            close(connect_d); //once the conversation is over child can close
+            exit(0);
         }
         close(connect_d);
     }
