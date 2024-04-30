@@ -1,13 +1,24 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<sys/socket.h>
-#include <string.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
+#include<string.h>
+#include<netinet/in.h>
+#include<arpa/inet.h>
 #include<errno.h>
 #include<unistd.h>
-#include<signal.h>
 #include<strings.h>
+#include<signal.h>
+
+int listner_d;
+
+int catch_signal(int sig, void (*handler)(int)){
+    struct sigaction action;
+    action.sa_handler = handler;
+    sigemptyset(&action.sa_mask);
+    action.sa_flags = 0;
+    return sigaction(sig, &action, NULL);
+}
+
 
 void error(char *msg){
     fprintf(stderr, "%s: %s\n", msg, strerror(errno));
@@ -66,7 +77,6 @@ int say(int socket, char *msg){
     }
 }
 
-int listner_d;
 void handle_shutdown(int sig){
     if(listner_d){
         close(listner_d);
@@ -76,10 +86,11 @@ void handle_shutdown(int sig){
     exit(0);
 }
 
+
 int main(){
-    // if(catch_signal(SIGINT, handle_shutdown) == -1){
-    //     error("cant set the interrupt handler"); //this will call handle_shutdown if ctrl-c is clicked 
-    // }
+    if(catch_signal(SIGINT, handle_shutdown) == -1){
+        error("cant set the interrupt handler"); //this will call handle_shutdown if ctrl-c is clicked 
+    }
     int listner_d = open_listner_socket();
 
     bind_to_port(listner_d, 30000); //create a socket on port 30000
