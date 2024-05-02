@@ -47,7 +47,7 @@ int main() {
         close(fd[1]); //the parent will not write to file so we close it
 
         read(fd[0], buffer, 100);
-        printf("%s", buffer);
+        printf("buffer has the stored string :%s", buffer);
         open_url(buffer); //will open the browser and link which is written in exec.py
     }
 }

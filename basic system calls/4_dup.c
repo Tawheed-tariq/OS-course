@@ -19,7 +19,7 @@ int main(){
     }
 
     if(pid == 0){
-        if(dup2(fileno(fd), 1) == -1){ /*here we redirected our stdout with file(output.txt)*/
+        if(dup2(fileno(fd), 1) == -1){ /*here we redirected our STDOUT with file(output.txt)*/
             error("cannot duplicate file");
         }
 
@@ -28,7 +28,7 @@ int main(){
         }
     }else{
         pid = wait(NULL);
-        fprintf("your child process ended with process ID %d\n", pid);
+        printf("your child process ended with process ID %d\n", pid);
     }
 
     return 0;
