@@ -1,3 +1,4 @@
+//gcc -pthread 4_multiplication_of_matrices.c -o 4_multiplication_of_matrices
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -6,8 +7,8 @@
 #include<pthread.h>
 #include<stdint.h>
 
-#define SIZE 4
-#define MAX_THREADS 4
+#define SIZE 3
+#define MAX_THREADS 3
 
 pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 
