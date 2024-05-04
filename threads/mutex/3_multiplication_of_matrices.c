@@ -1,4 +1,4 @@
-//gcc -pthread 4_multiplication_of_matrices.c -o 4_multiplication_of_matrices
+//gcc -pthread 3_multiplication_of_matrices.c -o 3_multiplication_of_matrices
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>

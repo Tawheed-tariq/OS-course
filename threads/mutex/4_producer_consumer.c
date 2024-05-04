@@ -1,4 +1,4 @@
-// gcc -pthread 1_producer_consumer.c -o 1_producer_consumer
+// gcc -pthread 4_producer_consumer.c -o 4_producer_consumer
 #include<stdio.h>
 #include<stdlib.h>
 #include<errno.h>
