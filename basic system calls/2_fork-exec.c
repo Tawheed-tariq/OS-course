@@ -11,7 +11,7 @@ void nmapScan(char *);
 void whatweb(char *);
 void execExample1();
 int main(){
-    execExample1();
+    whatweb("casetcollege.in");
     return 0;
 }
 

@@ -4,7 +4,7 @@
 #include<unistd.h>
 #include<errno.h>
 #include<pthread.h>
-#include <stdint.h>
+#include<stdint.h>
 
 #define ARR_SIZE 10000
 
