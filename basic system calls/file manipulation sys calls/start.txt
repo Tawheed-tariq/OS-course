@@ -1,0 +1,2 @@
+this is an example text for the testing of lseek system call which will read from this file and write in 
+end.txt file
