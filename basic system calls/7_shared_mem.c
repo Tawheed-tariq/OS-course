@@ -16,12 +16,10 @@ int main() {
     pid = fork();
 
     if (pid == 0) {
-        // Child process
         shared_memory = shmat(shmid, NULL, 0);
         printf("Child process: %s\n", shared_memory);
         shmdt(shared_memory);
     } else {
-        // Parent process
         shared_memory = shmat(shmid, NULL, 0);
         sprintf(shared_memory, "Hello from parent!");
         wait(NULL);

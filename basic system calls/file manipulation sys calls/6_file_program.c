@@ -16,5 +16,6 @@ int main(){
     write(1, buf2, strlen(buf2));//write on STDOUT
     read(0, buf, 2000); //read from STDIN
     write(fd, buf, strlen(buf)); //write to file
+    close(fd);
     return 0;
 }

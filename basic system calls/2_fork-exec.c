@@ -29,7 +29,7 @@ void forkExample() {
         printf("hello from parent\n");
     }
 }
-
+//execl
 void execExample(){
     printf("the file fork-exec.c is running\n");
     __pid_t pid = fork();
@@ -50,7 +50,7 @@ void execExample(){
         printf("the pid parent is %d\n", getpid());
     }  
 }
-
+//execle
 void execExample1(){
     printf("running execle \n");
     __pid_t pid = fork();
@@ -72,7 +72,28 @@ void execExample1(){
         printf("retruned to parent process\n");
     }
 }
+//execlp
+void whatweb(char *target){
+    printf("running whatweb scan on %s using exec system call\n", target);
+    __pid_t pid = fork();
 
+
+    if(pid < 0){
+        fprintf(stderr, "cant fork process : %s", strerror(errno));
+    }
+    else if(pid == 0){
+        printf("child process created successfully ");
+        int status_code = execlp("whatweb", "whatweb", target, NULL);
+        if(status_code == -1){
+            printf("child process did not terminate correctly");
+        }
+    }
+    else{
+        pid = wait(NULL);
+        printf("retruned to parent process");
+    }
+}
+//execv
 void nmapScan(char *target){
     printf("running nmap scan on %s using exec system call\n", target);
     __pid_t pid = fork();
@@ -96,23 +117,3 @@ void nmapScan(char *target){
 }
 
 
-void whatweb(char *target){
-    printf("running whatweb scan on %s using exec system call\n", target);
-    __pid_t pid = fork();
-
-
-    if(pid < 0){
-        fprintf(stderr, "cant fork process : %s", strerror(errno));
-    }
-    else if(pid == 0){
-        printf("child process created successfully ");
-        int status_code = execlp("whatweb", "whatweb", target, NULL);
-        if(status_code == -1){
-            printf("child process did not terminate correctly");
-        }
-    }
-    else{
-        pid = wait(NULL);
-        printf("retruned to parent process");
-    }
-}
