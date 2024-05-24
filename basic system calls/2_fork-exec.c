@@ -10,8 +10,10 @@ void execExample();
 void nmapScan(char *);
 void whatweb(char *);
 void execExample1();
+void execveExample();
+void execvpExample();
 int main(){
-    whatweb("casetcollege.in");
+    execveExample();
     return 0;
 }
 
@@ -40,7 +42,7 @@ void execExample(){
     }
     if(pid == 0){
         printf("you are in child, the pid is %d\n", pid);
-        if(execl("/usr/bin/python", "/usr/bin/python", "./exec.py", NULL) == -1){
+        if(execl("/usr/bin/python3", "python3", "exec.py", NULL) == -1){ //python3 exec.py
             fprintf(stderr, "cant run script : %s\n", strerror(errno)); 
         }
     }else{
@@ -62,7 +64,7 @@ void execExample1(){
     }
     else if(pid == 0){
         printf("child process created successfully \n");
-        int status_code = execle("./envs", "envs","running execle() system call", NULL, my_env);
+        int status_code = execle("./envs", "./envs","running execle() system call", NULL, my_env);
         if(status_code == -1){
             printf("child process did not terminate correctly\n");
         }
@@ -117,3 +119,42 @@ void nmapScan(char *target){
 }
 
 
+void execvpExample(){
+    __pid_t pid = fork();
+
+    char *arg_list[] = {"python3","exec.py", NULL};
+    if(pid < 0){
+        fprintf(stderr, "cant fork process : %s", strerror(errno));
+    }
+    else if(pid == 0){
+        printf("child process created successfully ");
+        int status_code = execvp("python3", arg_list);
+        if(status_code == -1){
+            printf("child process did not terminate correctly");
+        }
+    }
+    else{
+        pid = wait(NULL);
+        printf("retruned to parent process");
+    }
+}
+
+void execveExample(){
+    __pid_t pid = fork();
+
+    char *arg_list[] = {"python3","exec.py", NULL};
+    if(pid < 0){
+        fprintf(stderr, "cant fork process : %s", strerror(errno));
+    }
+    else if(pid == 0){
+        printf("child process created successfully ");
+        int status_code = execve("/usr/bin/python3", arg_list, NULL);
+        if(status_code == -1){
+            printf("child process did not terminate correctly");
+        }
+    }
+    else{
+        pid = wait(NULL);
+        printf("retruned to parent process");
+    }
+}

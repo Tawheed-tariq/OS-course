@@ -23,7 +23,7 @@ int main(){
             error("cannot duplicate file");
         }
 
-        if(execl("/usr/bin/python", "/usr/bin/python", "./exec.py", NULL) == -1){
+        if(execl("/usr/bin/python3", "python3", "exec.py", NULL) == -1){
             error("cannot run script");
         }
     }else{

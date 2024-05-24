@@ -1,4 +1,3 @@
-//dinner_info
 //connected with execle system call in 2.fork-exec.c
 #include <stdio.h>
 #include <stdlib.h>

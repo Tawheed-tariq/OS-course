@@ -15,7 +15,7 @@ void exampleWait(){
     }
     if(pid == 0){
         printf("you are in child, the pid is %d\n", pid);
-        if(execl("/usr/bin/python", "/usr/bin/python", "./exec.py", NULL) == -1){
+        if(execl("/usr/bin/python3", "python3", "exec.py", NULL) == -1){
             fprintf(stderr, "cant run script : %s\n", strerror(errno)); 
         }
     }else{

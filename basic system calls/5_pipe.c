@@ -36,7 +36,7 @@ int main() {
         dup2(fd[1], 1); //we replace the STDOUT with the file given to write pipe output to that file
         close(fd[0]); //child would not read the file so we close the read fd[0] file
 
-        if(execl("/usr/bin/python", "/usr/bin/python", "./exec.py", NULL) == -1){
+        if(execl("/usr/bin/python3", "python3", "exec.py", NULL) == -1){
             error("cant run script");
         }
     }
