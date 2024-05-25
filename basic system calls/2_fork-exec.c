@@ -13,7 +13,7 @@ void execExample1();
 void execveExample();
 void execvpExample();
 int main(){
-    execveExample();
+    execExample1();
     return 0;
 }
 
